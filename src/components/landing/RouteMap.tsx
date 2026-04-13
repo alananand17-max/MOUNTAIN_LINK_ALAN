@@ -38,8 +38,9 @@ const RouteMap = () => (
           </svg>
         </div>
 
-        {/* Route line */}
-        <div className="relative mb-16 mt-20">
+        {/* Route Container */}
+        <div className="relative w-full h-48 my-8">
+          {/* Route line */}
           <div className="absolute top-1/2 left-0 right-0 h-1 -translate-y-1/2 rounded-full bg-secondary/20" />
           <motion.div
             className="absolute top-1/2 left-0 h-1 -translate-y-1/2 rounded-full bg-secondary"
@@ -49,37 +50,38 @@ const RouteMap = () => (
             transition={{ duration: 2, ease: "easeInOut" }}
           />
 
-          {/* Hub markers */}
+          {/* Hub markers (Above the line) */}
           {hubs.map((hub, i) => (
             <motion.div
               key={hub.name}
-              className={`absolute top-1/2 -translate-x-1/2 -translate-y-1/2 ${hub.position}`}
+              className={`absolute top-1/2 -translate-x-1/2 -translate-y-1/2 ${hub.position} z-10`}
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 + i * 0.2 }}
             >
-              <div className="flex flex-col items-center">
-                <div className="mb-2 text-center">
+              <div className="relative flex items-center justify-center h-4 w-4 rounded-full border-2 border-secondary bg-background shadow-md">
+                <div className="absolute bottom-6 w-max text-center">
                   <p className="text-xs font-bold text-foreground sm:text-sm">{hub.name}</p>
                   <p className="text-xs text-muted-foreground">{hub.km} km</p>
                 </div>
-                <div className="h-4 w-4 rounded-full border-2 border-secondary bg-background shadow-md" />
               </div>
             </motion.div>
           ))}
-        </div>
 
-        {/* Mountain passes */}
-        <div className="relative mt-8">
+          {/* Mountain passes (Below the line) */}
           {passes.map((pass) => (
             <div
               key={pass.name}
-              className={`absolute -top-4 ${pass.position} hidden -translate-x-1/2 text-center sm:block`}
+              className={`absolute top-1/2 -translate-x-1/2 -translate-y-1/2 ${pass.position} hidden sm:block z-0`}
             >
-              <span className="text-xs text-secondary">⛰️</span>
-              <p className="text-xs text-muted-foreground whitespace-nowrap">{pass.name}</p>
-              <p className="text-xs text-muted-foreground/70">{pass.elevation}</p>
+              <div className="relative flex items-center justify-center w-4 h-4">
+                <div className="absolute top-6 w-max text-center flex flex-col items-center">
+                  <span className="text-sm text-secondary mb-1">⛰️</span>
+                  <p className="text-xs text-muted-foreground whitespace-nowrap">{pass.name}</p>
+                  <p className="text-xs text-muted-foreground/70">{pass.elevation}</p>
+                </div>
+              </div>
             </div>
           ))}
         </div>
